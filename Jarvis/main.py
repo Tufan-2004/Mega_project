@@ -8,19 +8,19 @@ from google import genai
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
-newsapi="01922cee335347458fd9b819d6407655"
+newsapi="Your newsapi key"
 
 def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-# def aiProcess(command):
-#     client = genai.Client(api_key="AIzaSyDeU8K2XaYZW3Wu1xMM2fiytb3BHPUS0oI")
+def aiProcess(command):
+    client = genai.Client(api_key="your api key")
 
-#     response = client.models.generate_content(
-#         model="gemini-2.0-flash", contents=command
-#     )
-#     return response.text
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", contents=command
+    )
+    return response.text
 
 def processCommand(c):
     if "open google" in c.lower():
@@ -34,7 +34,7 @@ def processCommand(c):
         link=musiclibery.music[song]
         webbrowser.open(link)
     elif "news" in c.lower():
-        r= requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey=01922cee335347458fd9b819d6407655")
+        r= requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={newsapi}")
         # if r.status_code == 200:
         data = r.json()
         if data["status"] == "ok":
@@ -43,9 +43,9 @@ def processCommand(c):
             for i, article in enumerate(data["articles"]):
      
                 speak(f"{i+1}. {article['title']}")
-    # else:
-    #     output = aiProcess(c)
-    #     speak(output) 
+    else:
+        output = aiProcess(c)
+        speak(output) 
 
 
 if __name__ == "__main__":
